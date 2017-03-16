@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="jquery-3.1.1.js"></script>
+	</head>
+
+	<body>
+		<select id="selectA"></select>
+		<select id="selectB"></select>
+		<select id="selectC"></select>
+	</body>
+	<script>
+		var $selectA = $("#selectA");
+		var $selectB = $("#selectB");
+		var $selectC = $("#selectC");
+		var DataJson;
+		$.ajax({
+			type: "get",
+			url: "city.json",
+			async: true,
+			success: function(data) {
+				DataJson = data;
+				$.each(data, function(j, i) {
+					var str = "<option>" + i.name + "</option>";
+					$selectA.append(str);
+				});
+			}
+		});
+
+		$selectA.change(function() {
+			$selectB.children().remove();
+			$selectC.children().remove();
+			var $val = $(this).val();
+			$.each(DataJson, function(j, i) {
+				if($val == i.name) {
+					$.each(i.sub, function(n, m) {
+						var str = "<option>" + m.name + "</option>";
+						$selectB.append(str);
+					});
+				}
+			});
+		})
+		$selectB.change(function() {
+			$selectC.children().remove();
+			$.each(DataJson, function(j, i) {
+				var $val = $selectA.val();
+				if($val == i.name) {
+					$.each(i.sub, function(n, m) {
+						var $val1 = $selectB.val();
+						if($val1 == m.name) {
+							$.each(m.sub, function(z, s) {
+								var str = "<option>" + s.name + "</option>";
+								$selectC.append(str);
+							});
+						}
+					});
+				}
+			});
+		})
+	</script>
+
+</html>

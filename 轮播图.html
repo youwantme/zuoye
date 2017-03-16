@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Document</title>
+		<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			#box {
+				width: 500px;
+				height: 281px;
+				margin: 100px auto;
+				position: relative;
+			}
+			.banner li{
+				width: 500px;
+				height: 281px;
+				position: absolute;
+			}
+			#aBtn {
+				width: 500px;
+				height: 44px;
+				position: absolute;
+				bottom: 2px;
+			}
+			
+			#aBtn li {
+				float: left;
+				border: 2px solid #ffffff;
+				margin: 0 8px;
+				cursor: pointer;
+				opacity: 0.5;
+			}
+			#aBtn .active{
+				opacity: 1;
+			}
+			a{
+				width: 60px;
+				height: 60px;
+				display: block;
+				background: #00FFFF;
+				position: absolute;
+				display: none;
+			}
+			#left{
+				left: 0;
+				top: 110px;
+				z-index: 1;
+				background: url(lb/btn.gif)no-repeat 0 0;
+			}
+			#right{
+				right: 0;
+				top: 110px;
+				background: url(lb/btn.gif)no-repeat 0 -60px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box">
+			<a href="JavaScript:;" id="left"></a>
+			<ul class="banner">
+				<li><img src="img/1.jpg" /></li>
+				<li><img src="img/2.jpg" /></li>
+				<li><img src="img/3.jpg" /></li>
+				<li><img src="img/4.jpg" /></li>
+				<li><img src="img/5.jpg" /></li>
+			</ul>
+			<a href="JavaScript:;" id="right"></a>
+			<ul id="aBtn">
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			var $btn=$("#aBtn>li");
+			var $ban=$(".banner>li");
+			var _index=0;
+			$ban.hide();
+			$ban.eq(0).show();
+			function move(){
+				_index++;
+				if(_index==5){
+					_index=0;
+				}
+				$ban.eq(_index).fadeIn().siblings("li").fadeOut();
+				$btn.eq(_index).addClass("active").siblings("li").removeClass("active");
+			}
+			$btn.click(function(){
+				_index=$(this).index();
+				$ban.eq(_index).fadeIn().siblings("li").fadeOut();
+				$btn.eq(_index).addClass("active").siblings("li").removeClass("active");
+			})
+			var timer=setInterval(move,2000);
+			$("#left").click(function(){
+//				console.log(_index);
+				_index--;
+				if(_index==0){
+					_index=5;
+				}
+				$ban.eq(_index).fadeIn().siblings("li").fadeOut();
+				$btn.eq(_index).addClass("active").siblings("li").removeClass("active");
+			})
+			$("#right").click(function(){
+				_index++;
+				if(_index==5){
+					_index=0;
+				}
+				$ban.eq(_index).fadeIn().siblings("li").fadeOut();
+				$btn.eq(_index).addClass("active").siblings("li").removeClass("active");
+			})
+			$("#box").mousemove(function(){
+				$("a").show();
+				clearInterval(timer);		
+			})
+			$("#box").mouseout(function(){
+				timer=setInterval(move,2000);
+				$("a").hide();
+			})
+		})
+	</script>
+</html>

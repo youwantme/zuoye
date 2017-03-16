@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			li {
+				margin: 30px;
+				width: 80px;
+				height: 80px;
+				position: relative;
+				float: left;
+			}
+			
+			div {
+				position: absolute;
+				left: 0;
+				display: none;
+				z-index: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul>
+			<li>
+				<span><img src="img/1.jpg"/></span>
+				<div><img src="Gunimg/143241.jpg" /></div>
+			</li>
+			<li>
+				<span><img src="img/2.jpg"/></span>
+				<div><img src="Gunimg/148018.jpg" /></div>
+			</li>
+			<li>
+				<span><img src="img/3.jpg"/></span>
+				<div><img src="Gunimg/229428.jpg" /></div>
+			</li>
+			<li>
+				<span><img src="img/4.jpg"/></span>
+				<div><img src="Gunimg/229447.jpg" /></div>
+			</li>
+			<li>
+				<span><img src="img/5.jpg"/></span>
+				<div><img src="Gunimg/229453.jpg" /></div>
+			</li>
+		</ul>
+	</body>
+	<script>
+		var _left;
+		var _top;
+
+		$(document).on("mouseover", "span", function(e) {
+			var ev = e || event;
+			_left = ev.pageX;
+			_top = ev.pageY;
+		})
+		$(document).on("mousemove", "span", function(e) {
+			var ev = e || event;
+			$(this).next().show();
+			$(this).next("div").css({
+				"left": ev.pageX - _left,
+				"top": ev.pageY,
+			})
+		})
+		$("span").mouseout(function() {
+			$(this).next().hide();
+		})
+	</script>
+
+</html>

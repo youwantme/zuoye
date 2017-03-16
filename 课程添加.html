@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery-3.1.1.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			#Box {
+				width: 400px;
+				height: 300px;
+				margin: 0 auto;
+			}
+			
+			#Box #Btn {
+				width: 150px;
+				height: 60px;
+				font-size: 30px;
+			}
+			
+			li {
+				height: 50px;
+				border: 1px solid #FFC0CB;
+				font-size: 30px;
+				line-height: 50px;
+				position: relative;
+			}
+			
+			li button {
+				width: 100px;
+				height: 50px;
+				position: absolute;
+				right: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="Box">
+			<button id="Btn">添加课程</button>
+			<ul>
+			</ul>
+		</div>
+	</body>
+	<script>
+		var Text = ["java", "css", "c++", "html", "php"];
+		$("#Btn").click(function() {
+			var $li = $('<li>您选择的课程是' + Text[Math.floor(Math.random() * Text.length)] + '----' + Math.floor(Math.random() * 100) + '<button>删除</button>' + '</li>')
+			$("ul").append($li);
+			$li.css("background", getColor());
+			$("button").click(function() {
+				$(this).parent("li").remove();
+			})
+		})
+
+		function getColor() {
+			return "#" + Math.floor(Math.random() * Math.pow(16, 6)).toString(16);
+		}
+	</script>
+
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Document</title>
+		<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			form {
+				width: 420px;
+				margin: 50px auto;
+			}
+			
+			table {
+				width: 400px;
+				border-color: red;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form>
+			<input type="button" id="refresh" value="刷新" />
+			<input type="button" id="checkAll" value="全选" />
+			<input type="button" id="Selection" value="反选" />
+			<input type="button" id="All" value="全不选" />
+			<input type="button" id="del" value="删除" />
+			<input type="button" id="add" value="添加" />
+			<table border="1" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="box" /></th>
+						<th>编号</th>
+						<th>人物名称</th>
+						<th>年龄</th>
+						<th>性别</th>
+						<th>大招</th>
+					</tr>
+					<thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+			</table>
+		</form>
+	</body>
+	<script>
+		//单选
+		$(":checkbox").not(":first:checkbox").click(function(){
+			if(this.checked){
+				$(this).prop("checked",true).parent().parent().css("background","#FFC0CB");
+			}else{
+				$(this).prop("checked",false).parent().parent().css("background","#CCCCCC");
+			}
+		})
+		//刷新 
+		$("#refresh").click(function() {
+			window.location.reload();
+		})
+		//全选 
+		$("#checkAll").click(function() {
+			$(":checkbox").not(":first:checkbox").prop("checked", true);
+		})
+		//反选 
+		$("#Selection").click(function() {
+			$(":checkbox").each(function() {
+				$(this).not("#box").prop("checked", !$(this).prop("checked"));
+			})
+		})
+		//拷贝
+		$("#copy").click(function() {
+			$(":checkbox").each(function(){
+				if($(this).prop("checked")==true){
+					$(this).not("#box").prop("checked",true).parent().parent().clone().prependTo("tbody");
+				}
+			})
+		})
+		//全不选 
+		$("#All").click(function() {
+			$(":checkbox").prop("checked", false);
+		})
+		//删除
+		$("#del").click(function() {
+			$(":checked").prop("checked", true).parent().parent().remove();
+		})
+		//添加
+		$("#add").click(function(){
+			var str="<tr><td><input type='checkbox'/></td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>"
+			$("tbody").prepend(str);
+		})
+		//居中对齐
+		$("#center").click(function() {
+			$(":checked").prop("checked", true).parent().parent().css("text-align", "center");
+		})
+		//隔行变色
+		$("#color").click(function() {
+			$("tbody tr:odd").css("background", "#FFC0CB");
+			$("tbody tr:even").css("background", "#00FFFF");
+		})
+		//box框
+		$("#box").click(function(){
+			if(this.checked){
+				$(":checkbox").prop("checked",true);
+			}else{
+				$(":checkbox").prop("checked",false);
+			}
+		})
+	</script>
+
+</html>

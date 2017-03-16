@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script src="js/jquery-3.1.1.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		
+		body {
+			width: 100%;
+			height: 100%;
+		}
+		
+		#wirp {
+			width: 100%;
+			height: 100%;
+			background: #ccc;
+			position: fixed;
+			left: 0;
+			display: none;
+			opacity: 0.5;
+		}
+		
+		#content {
+			width: 500px;
+			height: 500px;
+			background: #FFFFFF;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -250px;
+			margin-top: -250px;
+		}
+		
+		#no {
+			width: 30px;
+			height: 30px;
+		}
+		table{
+			width: 500px;
+			height: 380px;
+			text-align: center;
+		}
+	</style>
+
+	<body>
+		<div id="wirp">
+			<div id="content">
+				<button id="no">X</button>
+				<h1></h1>
+				<h2></h2>
+				<table border="1">
+					<thead>
+						<tr>
+							<td></td>
+							<td>日期</td>
+							<td>风力</td>
+							<td>风向</td>
+							<td>高温</td>
+							<td>低温</td>
+							<td>天气类型</td>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		<select id="province"></select>
+		<select id="city"></select>
+		<select id="county"></select>
+		<button id="aBtn">查询天气</button>
+
+	</body>
+	<script>
+		$(function() {
+			var datajson;
+			$.ajax({
+				type: "get",
+				url: "js/two.json",
+				async: true,
+				success: function(data) {
+					datajson = data;
+					$.each(data, function(i, v) {
+						$("#province").append("<option>" + v.name + "</option>");
+					})
+				}
+			});
+			$("#province").change(function() {
+				$("#city").children().remove();
+				$("#county").children().remove();
+				$val = $(this).val();
+				$.each(datajson, function(i, v) {
+					if($val == v.name) {
+						$.each(v.sub, function(j, k) {
+							$("#city").append("<option>" + k.name + "</option>");
+						})
+					}
+				})
+			})
+			$("#city").change(function() {
+				$("#county").children().remove();
+				$val = $("#province").val();
+				$.each(datajson, function(i, v) {
+					if($val == v.name) {
+						$val2 = $("#city").val();
+						$.each(v.sub, function(j, k) {
+							if($val2 == k.name) {
+								$.each(k.sub, function(n, m) {
+									$("#county").append("<option>" + m.name + "</option>");
+								})
+							}
+						})
+					}
+				})
+			})
+			var Arr = Array();
+			$("#aBtn").click(function() {
+				$("#content h1").html("");
+				$("#content h2").html("");
+				$("#content tbody").html("");
+				$("#wirp").show();
+				Arr = Array();
+				var cityname = $("#city").val();
+				var DataJson;
+				$.ajax({
+					type: "get",
+					url: "http://wthrcdn.etouch.cn/weather_mini?city=" + cityname,
+					dataType: "json",
+					async: true,
+					success: function(data) {
+						console.log(data)
+						DataJson = data.data;
+						console.log(DataJson);
+						$("#content h1").append(cityname + "最近5天的天气情况");
+						Arr.push(DataJson.forecast);
+						var str = DataJson.ganmao;
+						$("#content h2").append(str);
+						$.each(DataJson.forecast, function(i, v) {
+							$("#content>table>tbody").append("<tr><td><input type='checkbox'></td><td>" + v.date + "</td><td>" + v.fengli + "</td><td>" + v.fengxiang + "</td><td>" + v.high + "</td><td>" + v.low + "</td><td>" + v.type + "</td></tr>")
+						});
+					}
+				})
+			})
+			$("#no").click(function() {
+				$("#wirp").hide();
+			})
+		})
+	</script>
+
+</html>

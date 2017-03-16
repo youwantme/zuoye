@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/jquery-3.1.1.js"></script>
+    <title></title>
+    <style>
+        #box{
+            width: 300px; height: 100px; background: red; margin: 100px auto; border: 20px solid yellow;
+            text-align: center; font-size: 30px;line-height: 30px;position: relative;
+        }
+        #box #sp1{
+            position: absolute;left: 8px;font-size: 8px;top: 0;
+        }
+        #box #sp3{
+            width: 200px;
+            height:30PX;
+
+            position: absolute;
+            left:40px;
+            top: 30px;
+        }
+        #box #sp2{
+            position: absolute;right: 8px;font-size: 8px;top: 70px;bottom:0;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box">
+    <span id="sp1"></span>
+    <span id="sp3"></span>
+    <span id="sp2"></span>
+</div>
+</body>
+<script>
+    $(function(){
+        setInterval(function(){
+            var date=new Date();
+//            console.log(date);
+//            var year=date.getFullYear();
+//            var month=date.getMonth();
+//            var day=date.getDate();
+            var house=date.getHours();
+            var min=date.getMinutes();
+            var sec=date.getSeconds();
+            var week=date.getDay();
+            function zero(m){
+                return m=m<10?'0'+m:m;
+            }
+            function sj(n){
+                return n=n<=12?n:n-12;
+            }
+            function getTimer(){
+                return zero(sj(house))+":"+zero(min)+":"+zero(sec);
+            }
+            function hs(hover){
+                return hover=hover<=12?"Am":"Pm";
+            }
+            function weeks(){
+                switch(week){
+                    case 1:
+                        x="mon";
+                        break;
+                    case 2:
+                        x="tue";
+                        break;
+                    case 3:
+                        x="wed";
+                        break;
+                    case 4:
+                        x="thurs";
+                        break;
+                    case 5:
+                        x="fri";
+                        break;
+                    case 6:
+                        x="sat";
+                        break;
+                    case 0:
+                        x="sun";
+                        break;
+                }
+                return x;
+            }
+            setInterval(getTimer,1000);
+            $('#sp1').html(weeks());
+            $('#sp3').html(getTimer());
+            $('#sp2').html(hs())
+        },1000)
+    })
+</script>
+</html>
